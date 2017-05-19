@@ -20,9 +20,13 @@ public class VehicleDataController {
 
     @GetMapping("/{vinCode}")
     public ResponseEntity<VehicleData> getVehicleDataByVinCode(String vinCode) {
-        vehicleDataService.getVehicleData(vinCode);
-
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        try {
+            vehicleDataService.getVehicleData(vinCode);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<VehicleData>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
