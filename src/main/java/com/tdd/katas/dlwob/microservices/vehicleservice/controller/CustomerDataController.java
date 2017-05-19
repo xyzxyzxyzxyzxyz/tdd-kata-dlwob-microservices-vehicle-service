@@ -21,8 +21,13 @@ public class CustomerDataController {
 
     @GetMapping("/{customerId}")
     public ResponseEntity<CustomerData> getCustomerDataByCustomerId(@PathVariable String customerId) {
-        customerDataService.getCustomerData(customerId);
-        return new ResponseEntity<CustomerData>(HttpStatus.NOT_FOUND);
+        try {
+            customerDataService.getCustomerData(customerId);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
