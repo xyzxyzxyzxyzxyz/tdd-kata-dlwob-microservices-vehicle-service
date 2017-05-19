@@ -39,11 +39,32 @@ public class VehicleDataControllerTest {
 
         mockMvc.perform(
                 get(VehicleDataController.URL_MAPPING + "/{vinCode}", NON_EXISTENT_VIN)
-            ).andExpect(status().isNotFound());
+            ).andExpect( status().isNotFound() );
 
         verify(vehicleDataService).getVehicleData( any() );
 
     }
+
+    @Test
+    public void Returns_500_when_service_error() throws Exception {
+
+        String ANY_VIN = "ANY_VIN";
+
+        given(
+                vehicleDataService.getVehicleData(any())
+            )
+            .willThrow(new RuntimeException("Database is not ready"));
+
+        mockMvc
+            .perform(
+                get(VehicleDataController.URL_MAPPING + "/{vinCode}", ANY_VIN)
+            )
+            .andExpect( status().isInternalServerError() );
+
+        verify (vehicleDataService).getVehicleData( any() );
+
+    }
+
 
 
 }
