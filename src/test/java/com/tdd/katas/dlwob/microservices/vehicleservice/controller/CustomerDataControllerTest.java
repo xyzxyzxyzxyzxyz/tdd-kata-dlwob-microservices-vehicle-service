@@ -44,4 +44,28 @@ public class CustomerDataControllerTest {
 
     }
 
+    
+    @Test
+    public void Returns_500_when_service_error() throws Exception {
+
+        String ANY_CUSTOMER_ID = "ANY_CUSTOMER_ID";
+
+        given(
+                customerDataService.getCustomerData(ANY_CUSTOMER_ID)
+            )
+            .willThrow(new RuntimeException("Database is not ready"));
+
+
+        mockMvc
+            .perform(
+                get(CustomerDataController.URL_MAPPING + "/{customerId}", ANY_CUSTOMER_ID)
+            )
+            .andExpect( status().isInternalServerError() );
+
+
+        verify (customerDataService).getCustomerData( ANY_CUSTOMER_ID );
+
+    }
+
+
 }
