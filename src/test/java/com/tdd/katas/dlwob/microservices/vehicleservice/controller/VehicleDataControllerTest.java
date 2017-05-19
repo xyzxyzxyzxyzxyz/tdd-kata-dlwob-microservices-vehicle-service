@@ -80,7 +80,6 @@ public class VehicleDataControllerTest {
                 .willReturn(expectedVehicleData);
 
 
-
         mockMvc
                 .perform(
                         get(VehicleDataController.URL_MAPPING + "/{vinCode}", ANY_VIN)
@@ -91,6 +90,7 @@ public class VehicleDataControllerTest {
                 .andExpect( jsonPath("$.modelId", is ( expectedVehicleData.getModelId() ) ))
                 .andExpect( jsonPath("$.plateNumber", is ( expectedVehicleData.getPlateNumber() ) ))
         ;
+
 
         verify (vehicleDataService).getVehicleData(ANY_VIN);
 
