@@ -8,8 +8,6 @@ import java.io.InputStream;
 
 public class MockVehicleServiceImpl implements VehicleService {
 
-    public static final String SAMPLE_VEHICLE_VIN_CODE = "sample-vehicle-vin-code";
-
     public MockVehicleServiceImpl() {
         readJsonFile();
     }

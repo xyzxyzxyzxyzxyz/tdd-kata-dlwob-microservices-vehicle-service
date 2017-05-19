@@ -40,7 +40,7 @@ public class MockVehicleDataServiceImpl implements VehicleDataService {
 
     @Override
     public VehicleData getVehicleData(String vinCode) {
-        if (MockVehicleServiceImpl.SAMPLE_VEHICLE_VIN_CODE.equals(vinCode)) {
+        if (MockServicesConstants.SAMPLE_VEHICLE_VIN_CODE.equals(vinCode)) {
             return sampleVData;
         }
         else {

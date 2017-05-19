@@ -14,10 +14,10 @@ public class MockVehicleServiceImplTest {
     public void testContainsSampleData() throws UnsupportedEncodingException {
         VehicleService mockVehicleService = new MockVehicleServiceImpl();
 
-        VehicleInformation vinfo = mockVehicleService.getVehicleInformation(MockVehicleServiceImpl.SAMPLE_VEHICLE_VIN_CODE);
+        VehicleInformation vinfo = mockVehicleService.getVehicleInformation(MockServicesConstants.SAMPLE_VEHICLE_VIN_CODE);
 
         assertNotNull(vinfo);
-        assertEquals(MockVehicleServiceImpl.SAMPLE_VEHICLE_VIN_CODE, vinfo.getVin());
+        assertEquals(MockServicesConstants.SAMPLE_VEHICLE_VIN_CODE, vinfo.getVin());
 
         assertNotNull(vinfo.getVehicleData());
         assertEquals("sample-vehicle-model-id", vinfo.getVehicleData().getModelId());
