@@ -24,14 +24,14 @@ public class MockVehicleServiceImplTest {
         assertEquals("sample-vehicle-plate-number", vinfo.getVehicleData().getPlateNumber());
 
         assertNotNull(vinfo.getCustomerData());
-        assertEquals("sample-vehicle-model-id", vinfo.getCustomerData().getId());
+        assertEquals("sample-customer-id", vinfo.getCustomerData().getId());
         assertEquals("Sergio", vinfo.getCustomerData().getName());
         assertEquals("Osuna Medina", vinfo.getCustomerData().getSurnames());
 
 
 
         assertNotNull(vinfo.getPartsList());
-        assertEquals(2, vinfo.getPartsList().size());
+        assertEquals(3, vinfo.getPartsList().size());
 
         assertNotNull(vinfo.getPartsList().get(0));
         assertEquals("sample-part-1-id", vinfo.getPartsList().get(0).getId());
