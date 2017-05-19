@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -33,18 +32,18 @@ public class VehicleDataControllerTest {
     @Test
     public void Returns_404_for_non_existent_vin_code() throws Exception {
 
+        String NON_EXISTENT_VIN = "NON_EXISTENT_VIN";
+
         given(
-                vehicleDataService.getVehicleData( any() )
+                vehicleDataService.getVehicleData( NON_EXISTENT_VIN )
             )
             .willReturn(null);
-
-        String NON_EXISTENT_VIN = "NON_EXISTENT_VIN";
 
         mockMvc.perform(
                 get(VehicleDataController.URL_MAPPING + "/{vinCode}", NON_EXISTENT_VIN)
             ).andExpect( status().isNotFound() );
 
-        verify(vehicleDataService).getVehicleData( any() );
+        verify(vehicleDataService).getVehicleData( NON_EXISTENT_VIN );
 
     }
 
@@ -54,7 +53,7 @@ public class VehicleDataControllerTest {
         String ANY_VIN = "ANY_VIN";
 
         given(
-                vehicleDataService.getVehicleData(any())
+                vehicleDataService.getVehicleData(ANY_VIN)
             )
             .willThrow(new RuntimeException("Database is not ready"));
 
@@ -64,7 +63,7 @@ public class VehicleDataControllerTest {
             )
             .andExpect( status().isInternalServerError() );
 
-        verify (vehicleDataService).getVehicleData( any() );
+        verify (vehicleDataService).getVehicleData( ANY_VIN );
 
     }
 
