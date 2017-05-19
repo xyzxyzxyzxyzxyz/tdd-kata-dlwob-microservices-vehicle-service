@@ -1,0 +1,24 @@
+package com.tdd.katas.dlwob.microservices.vehicleservice.service;
+
+import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleData;
+import org.junit.Test;
+
+import java.io.UnsupportedEncodingException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+public class MockVehicleDataServiceImplTest {
+
+    @Test
+    public void Contains_sample_data() throws UnsupportedEncodingException {
+        VehicleDataService mockVehicleDataService = new MockVehicleDataServiceImpl();
+
+        VehicleData actualVehicleData = mockVehicleDataService.getVehicleData(MockVehicleServiceImpl.SAMPLE_VEHICLE_VIN_CODE);
+
+        assertNotNull(actualVehicleData);
+        assertEquals("sample-vehicle-model-id", actualVehicleData.getModelId());
+        assertEquals("sample-vehicle-plate-number", actualVehicleData.getPlateNumber());
+    }
+
+}
