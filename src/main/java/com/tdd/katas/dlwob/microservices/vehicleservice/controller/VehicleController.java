@@ -1,5 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.controller;
 
+import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleInformation;
 import com.tdd.katas.dlwob.microservices.vehicleservice.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +20,22 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     @GetMapping("/{vinCode}")
-    public ResponseEntity<?> getVehicle(String vinCode) {
+    public ResponseEntity<VehicleInformation> getVehicle(String vinCode) {
+        VehicleInformation vinfo;
+
         try {
-            vehicleService.getVehicleInformation(vinCode);
+            vinfo = vehicleService.getVehicleInformation(vinCode);
         }
         catch (Exception e) {
-            return new ResponseEntity<Object>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        if (vinfo == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else {
+            return new ResponseEntity<>(vinfo, HttpStatus.OK);
+        }
     }
 
 }
