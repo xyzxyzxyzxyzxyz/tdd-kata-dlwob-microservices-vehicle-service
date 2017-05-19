@@ -1,6 +1,8 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.controller;
 
+import com.tdd.katas.dlwob.microservices.vehicleservice.model.CustomerData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.service.CustomerDataService;
+import com.tdd.katas.dlwob.microservices.vehicleservice.service.MockServicesConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,11 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -25,6 +29,8 @@ public class CustomerDataControllerTest {
 
     @MockBean
     private CustomerDataService customerDataService;
+
+
 
     @Test
     public void Returns_404_for_non_existent_customer_id() throws Exception {
@@ -66,6 +72,35 @@ public class CustomerDataControllerTest {
         verify (customerDataService).getCustomerData( ANY_CUSTOMER_ID );
 
     }
+
+
+    @Test
+    public void Returns_valid_data_for_existing_customer_id() throws Exception {
+        CustomerData expectedCustomerData = new CustomerData();
+        expectedCustomerData.setId(MockServicesConstants.SAMPLE_CUSTOMER_ID);
+        expectedCustomerData.setName("Sergio");
+        expectedCustomerData.setSurnames("Osuna Medina");
+
+        given ( customerDataService.getCustomerData( expectedCustomerData.getId() ) )
+                .willReturn(expectedCustomerData);
+
+
+        mockMvc
+                .perform(
+                    get(CustomerDataController.URL_MAPPING + "/{customerId}", expectedCustomerData.getId())
+                )
+                .andExpect(
+                    status().isOk()
+                )
+                .andExpect( jsonPath("$.id", is ( expectedCustomerData.getId() ) ))
+                .andExpect( jsonPath("$.name", is ( expectedCustomerData.getName() ) ))
+                .andExpect( jsonPath("$.surnames", is ( expectedCustomerData.getSurnames() ) ))
+        ;
+
+
+        verify (customerDataService).getCustomerData(expectedCustomerData.getId());
+    }
+
 
 
 }
