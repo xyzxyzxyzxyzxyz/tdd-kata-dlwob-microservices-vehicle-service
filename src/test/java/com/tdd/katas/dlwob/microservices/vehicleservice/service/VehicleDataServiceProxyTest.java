@@ -10,8 +10,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.HttpClientErrorException;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -49,6 +51,38 @@ public class VehicleDataServiceProxyTest {
 
         // Assert expected output
         assertNull(customerData);
+
+        // Verify expected interaction with server
+        server.verify();
+
+    }
+
+    @Test
+    public void Throws_exception_when_client_error() {
+
+        String ANY_VIN = "ANY_VIN";
+
+        // Prepare server response
+        server
+            .expect(
+                once(),
+                requestTo(VehicleDataController.URL_MAPPING + "/" + ANY_VIN)
+            )
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(
+                withStatus(HttpStatus.BAD_REQUEST)
+            )
+        ;
+
+        try {
+            // Execute action
+            vehicleDataServiceProxy.getVehicleData(ANY_VIN);
+
+            fail("Should have thrown an exception");
+        }
+        catch (HttpClientErrorException e) {
+            // Ok
+        }
 
         // Verify expected interaction with server
         server.verify();
