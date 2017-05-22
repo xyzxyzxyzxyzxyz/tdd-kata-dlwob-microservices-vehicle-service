@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -18,7 +19,11 @@ class CustomerDataServiceProxy {
         restTemplate = restTemplateBuilder.build();
     }
 
-    public CustomerData getCustomerData(String nonExistingCustomerId) throws HttpClientErrorException {
+    public CustomerData getCustomerData(String nonExistingCustomerId)
+            throws
+                HttpClientErrorException,
+                HttpServerErrorException
+    {
         try {
             ResponseEntity<CustomerData> customerData = restTemplate.getForEntity(CustomerDataController.URL_MAPPING + "/" + nonExistingCustomerId, CustomerData.class);
             return customerData.getBody();
