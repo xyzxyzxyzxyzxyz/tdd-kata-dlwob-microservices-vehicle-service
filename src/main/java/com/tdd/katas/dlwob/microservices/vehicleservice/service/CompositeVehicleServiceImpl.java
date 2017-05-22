@@ -19,7 +19,7 @@ public class CompositeVehicleServiceImpl implements VehicleService {
             return null;
         }
 
-        throw new UnsupportedOperationException("To be implemented");
+        return null;
 
     }
 
