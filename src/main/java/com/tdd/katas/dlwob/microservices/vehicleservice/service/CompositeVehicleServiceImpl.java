@@ -1,9 +1,10 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleCustomerData;
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleInformation;
+import com.tdd.katas.dlwob.microservices.vehicleservice.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class CompositeVehicleServiceImpl implements VehicleService {
@@ -25,12 +26,17 @@ public class CompositeVehicleServiceImpl implements VehicleService {
             return null;
         }
 
-        customerDataServiceProxy.getCustomerData(vcd.getCustomerId());
-        vehicleDataServiceProxy.getVehicleData(vinCode);
-        partDataServiceProxy.getPartDataList(vinCode);
+        CustomerData cd = customerDataServiceProxy.getCustomerData(vcd.getCustomerId());
+        VehicleData vd = vehicleDataServiceProxy.getVehicleData(vinCode);
+        List<PartData> pdl =  partDataServiceProxy.getPartDataList(vinCode);
 
-        return null;
+        VehicleInformation vinfo = new VehicleInformation();
+        vinfo.setVin(vinCode);
+        vinfo.setCustomerData(cd);
+        vinfo.setVehicleData(vd);
+        vinfo.setPartsList(pdl);
 
+        return vinfo;
     }
 
 }
