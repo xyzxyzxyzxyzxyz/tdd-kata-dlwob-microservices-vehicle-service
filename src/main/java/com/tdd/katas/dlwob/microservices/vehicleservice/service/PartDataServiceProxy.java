@@ -27,6 +27,9 @@ class PartDataServiceProxy {
             if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 return null;
             }
+            else {
+                throw e;
+            }
         }
 
         throw new UnsupportedOperationException("Not implemented");
