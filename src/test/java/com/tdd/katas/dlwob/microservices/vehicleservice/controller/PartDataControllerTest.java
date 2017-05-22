@@ -42,4 +42,21 @@ public class PartDataControllerTest {
         verify(partDataService).getPartsByVinCode( NON_EXISTENT_VIN );
     }
 
+    @Test
+    public void Returns_500_when_service_error() throws Exception {
+        String ANY_VIN = "ANY_VIN";
+
+        given
+            (
+                partDataService.getPartsByVinCode( ANY_VIN )
+            )
+            .willThrow( new RuntimeException("Database not ready") );
+
+        mockMvc.perform(
+                get(PartDataController.URL_MAPPING + "/{vinCode}", ANY_VIN)
+        ).andExpect( status().isInternalServerError() );
+
+        verify(partDataService).getPartsByVinCode( ANY_VIN );
+    }
+
 }
