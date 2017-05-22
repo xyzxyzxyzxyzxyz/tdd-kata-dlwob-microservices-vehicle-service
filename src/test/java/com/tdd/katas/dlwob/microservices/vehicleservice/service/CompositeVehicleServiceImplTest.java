@@ -12,8 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
@@ -55,6 +54,86 @@ public class CompositeVehicleServiceImplTest {
         verify(vehicleCustomerDataService).getVehicleCustomerData(UNKNOWN_VIN);
 
     }
+
+
+
+    @Test
+    public void Returns_valid_data_for_existing_vin() {
+
+        final String EXISTING_VIN = "EXISTING_VIN";
+        final String CUSTOMER_ID = "CUSTOMER_ID";
+
+
+        // Expected data
+
+        VehicleInformation expectedData = new VehicleInformation();
+
+        expectedData.setVin(EXISTING_VIN);
+        expectedData.setCustomerData(new CustomerData());
+        expectedData.setVehicleData(new VehicleData());
+        expectedData.setPartsList(new ArrayList<>());
+
+        expectedData.getCustomerData().setId(CUSTOMER_ID);
+        expectedData.getCustomerData().setName("customer-name");
+        expectedData.getCustomerData().setSurnames("customer-surnames");
+
+        expectedData.getVehicleData().setModelId("vehicle-model-id");
+        expectedData.getVehicleData().setPlateNumber("vehicle-plate-number");
+
+        expectedData.getPartsList().add(new PartData());
+        expectedData.getPartsList().get(0).setId("part-0-id");
+        expectedData.getPartsList().get(0).setDescription("part-0-description");
+        expectedData.getPartsList().add(new PartData());
+        expectedData.getPartsList().get(1).setId("part-1-id");
+        expectedData.getPartsList().get(1).setDescription("part-1-description");
+
+
+        // Prepare collaborators
+
+        VehicleCustomerData vcd = new VehicleCustomerData();
+        vcd.setCustomerId(CUSTOMER_ID);
+        given(
+            vehicleCustomerDataService.getVehicleCustomerData(EXISTING_VIN)
+        ).willReturn(vcd);
+
+        given(
+            customerDataServiceProxy.getCustomerData(CUSTOMER_ID)
+        ).willReturn(expectedData.getCustomerData());
+
+        given(
+            vehicleDataServiceProxy.getVehicleData(EXISTING_VIN)
+        ).willReturn(expectedData.getVehicleData());
+
+        given(
+            partDataServiceProxy.getPartDataList(EXISTING_VIN)
+        ).willReturn(expectedData.getPartsList());
+
+
+        // Perform action
+        VehicleInformation actualData = compositeVehicleService.getVehicleInformation(EXISTING_VIN);
+
+
+        // Verify output
+
+        assertNotNull(actualData);
+
+        assertEquals(expectedData.getVin(), actualData.getVin());
+
+        assertEquals(expectedData.getCustomerData().getId(), actualData.getCustomerData().getId());
+        assertEquals(expectedData.getCustomerData().getName(), actualData.getCustomerData().getName());
+        assertEquals(expectedData.getCustomerData().getSurnames(), actualData.getCustomerData().getSurnames());
+
+        assertEquals(expectedData.getVehicleData().getModelId(), actualData.getVehicleData().getModelId());
+        assertEquals(expectedData.getVehicleData().getPlateNumber(), actualData.getVehicleData().getPlateNumber());
+
+
+        // Verify interactions
+        verify(vehicleCustomerDataService).getVehicleCustomerData(EXISTING_VIN);
+        verify(customerDataServiceProxy).getCustomerData(CUSTOMER_ID);
+        verify(vehicleDataServiceProxy).getVehicleData(EXISTING_VIN);
+        verify(partDataServiceProxy).getPartDataList(EXISTING_VIN);
+    }
+
 
 
 
