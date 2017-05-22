@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -81,6 +82,38 @@ public class VehicleDataServiceProxyTest {
             fail("Should have thrown an exception");
         }
         catch (HttpClientErrorException e) {
+            // Ok
+        }
+
+        // Verify expected interaction with server
+        server.verify();
+
+    }
+
+    @Test
+    public void Throws_exception_when_server_error() {
+
+        String ANY_VIN = "ANY_VIN";
+
+        // Prepare server response
+        server
+            .expect(
+                once(),
+                requestTo(VehicleDataController.URL_MAPPING + "/" + ANY_VIN)
+            )
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(
+                withStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+            )
+        ;
+
+        try {
+            // Execute action
+            vehicleDataServiceProxy.getVehicleData(ANY_VIN);
+
+            fail("Should have thrown an exception");
+        }
+        catch (HttpServerErrorException e) {
             // Ok
         }
 

@@ -6,6 +6,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -17,7 +18,7 @@ class VehicleDataServiceProxy {
         restTemplate = restTemplateBuilder.build();
     }
 
-    public VehicleData getVehicleData(String vinCode) throws HttpClientErrorException {
+    public VehicleData getVehicleData(String vinCode) throws HttpClientErrorException, HttpServerErrorException {
         try {
             restTemplate.getForEntity(
                     VehicleDataController.URL_MAPPING + "/" + vinCode,
