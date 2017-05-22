@@ -1,5 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.controller;
 
+import com.tdd.katas.dlwob.microservices.vehicleservice.model.PartData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.service.PartDataService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,9 +11,14 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -59,4 +65,37 @@ public class PartDataControllerTest {
         verify(partDataService).getPartsByVinCode( ANY_VIN );
     }
 
+    @Test
+    public void Returns_valid_data_for_existing_vin_code() throws Exception {
+        String EXISTING_VIN_CODE = "EXISTING_VIN_CODE";
+
+        List<PartData> expectedPartDataList = new ArrayList<>();
+        expectedPartDataList.add(new PartData());
+        expectedPartDataList.get(0).setId("part-data-0-id");
+        expectedPartDataList.get(0).setDescription("part-data-0-description");
+        expectedPartDataList.add(new PartData());
+        expectedPartDataList.get(1).setId("part-data-1-id");
+        expectedPartDataList.get(1).setDescription("part-data-1-description");
+
+        given
+            (
+                partDataService.getPartsByVinCode( EXISTING_VIN_CODE )
+            )
+            .willReturn( expectedPartDataList );
+
+        mockMvc.perform(
+                get(PartDataController.URL_MAPPING + "/{vinCode}", EXISTING_VIN_CODE)
+            )
+            .andExpect( status().isOk() )
+            .andExpect( jsonPath("$.length()", is( 2)))
+            .andExpect( jsonPath("$[0].id", is( expectedPartDataList.get(0).getId() )))
+            .andExpect( jsonPath("$[0].description", is( expectedPartDataList.get(0).getDescription() )))
+            .andExpect( jsonPath("$[1].id", is( expectedPartDataList.get(1).getId() )))
+            .andExpect( jsonPath("$[1].description", is( expectedPartDataList.get(1).getDescription() )))
+        ;
+
+        verify(partDataService).getPartsByVinCode( EXISTING_VIN_CODE );
+    }
+
 }
+
