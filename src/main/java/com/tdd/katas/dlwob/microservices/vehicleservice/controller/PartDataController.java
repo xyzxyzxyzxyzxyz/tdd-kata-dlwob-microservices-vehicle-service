@@ -23,8 +23,13 @@ public class PartDataController {
 
     @GetMapping("/{vinCode}")
     public ResponseEntity<List<PartData>> getPartsByVinCode(@PathVariable String vinCode) {
-        partDataService.getPartsByVinCode(vinCode);
-        return new ResponseEntity<List<PartData>>(HttpStatus.NOT_FOUND);
+        try {
+            partDataService.getPartsByVinCode(vinCode);
+            return new ResponseEntity<List<PartData>>(HttpStatus.NOT_FOUND);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<List<PartData>>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
