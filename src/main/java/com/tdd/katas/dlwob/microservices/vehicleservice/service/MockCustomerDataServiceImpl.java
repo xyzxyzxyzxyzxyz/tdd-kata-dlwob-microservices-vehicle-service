@@ -1,7 +1,9 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.CustomerData;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MockCustomerDataServiceImpl
         extends AbstractMockServiceImpl<CustomerData>
         implements CustomerDataService
