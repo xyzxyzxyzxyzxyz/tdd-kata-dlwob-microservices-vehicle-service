@@ -1,5 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -11,9 +12,13 @@ abstract class AbstractMockServiceImpl<DATA> {
         readJsonFile(dataClass);
     }
 
+    public AbstractMockServiceImpl(TypeReference<DATA> typeReference) {
+        readJsonFile(typeReference);
+    }
+
     protected DATA dataObject;
 
-    protected void readJsonFile(Class<DATA> dataClass) {
+    protected void readJsonFile(Object dataClass) {
         ObjectMapper objectMapper = new ObjectMapper();
 
         String resourceName = getClass().getSimpleName() + ".json";
@@ -22,7 +27,12 @@ abstract class AbstractMockServiceImpl<DATA> {
         try {
             resourceInputStream = getClass().getResourceAsStream(resourceName);
 
-            dataObject = objectMapper.readValue(resourceInputStream, dataClass);
+            if (dataClass instanceof Class) {
+                dataObject = (DATA) objectMapper.readValue(resourceInputStream, (Class) dataClass);
+            }
+            else if (dataClass instanceof TypeReference) {
+                dataObject = objectMapper.readValue(resourceInputStream, (TypeReference) dataClass);
+            }
         } catch (Exception e) {
             throw new IllegalStateException("Unexpected error reading from JSON file", e);
         } finally {
