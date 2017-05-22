@@ -1,10 +1,10 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.controller.PartDataController;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.PartData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -16,9 +16,7 @@ import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -35,6 +33,10 @@ public class PartDataServiceProxyTest {
     @Autowired
     private PartDataServiceProxy partDataServiceProxy;
 
+    @Value("${services.parts-data.baseUrl}")
+    private String serviceBaseUrl;
+
+
     @Test
     public void Returns_null_when_vin_does_not_exist() {
 
@@ -44,7 +46,7 @@ public class PartDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(PartDataController.URL_MAPPING + "/" + NON_EXISTING_VIN)
+                requestTo(serviceBaseUrl + "/" + NON_EXISTING_VIN)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
@@ -72,7 +74,7 @@ public class PartDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(PartDataController.URL_MAPPING + "/" + ANY_VIN)
+                requestTo(serviceBaseUrl + "/" + ANY_VIN)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
@@ -104,7 +106,7 @@ public class PartDataServiceProxyTest {
         server
                 .expect(
                         once(),
-                        requestTo(PartDataController.URL_MAPPING + "/" + ANY_VIN)
+                        requestTo(serviceBaseUrl + "/" + ANY_VIN)
                 )
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(
@@ -153,7 +155,7 @@ public class PartDataServiceProxyTest {
         server
                 .expect(
                     once(),
-                    requestTo(PartDataController.URL_MAPPING + "/" + ANY_VIN)
+                    requestTo(serviceBaseUrl + "/" + ANY_VIN)
                 )
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(

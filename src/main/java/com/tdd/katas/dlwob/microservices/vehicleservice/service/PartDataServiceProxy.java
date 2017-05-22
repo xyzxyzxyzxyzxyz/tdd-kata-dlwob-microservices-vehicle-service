@@ -1,7 +1,7 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.controller.PartDataController;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.PartData;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,16 +16,21 @@ import java.util.List;
 class PartDataServiceProxy {
 
     private RestTemplate restTemplate;
+    private String baseUrl;
 
-    public PartDataServiceProxy(RestTemplateBuilder restTemplateBuilder) {
+    public PartDataServiceProxy(
+            RestTemplateBuilder restTemplateBuilder,
+            @Value("${services.parts-data.baseUrl}") String baseUrl)
+    {
         restTemplate = restTemplateBuilder.build();
+        this.baseUrl = baseUrl;
     }
 
     public List<PartData> getPartDataList(String vinCode) {
 
         ResponseEntity<PartData[]> response;
         try {
-            response = restTemplate.getForEntity(PartDataController.URL_MAPPING + "/" + vinCode, PartData[].class);
+            response = restTemplate.getForEntity(baseUrl + "/" + vinCode, PartData[].class);
         }
         catch (HttpClientErrorException e) {
             if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {

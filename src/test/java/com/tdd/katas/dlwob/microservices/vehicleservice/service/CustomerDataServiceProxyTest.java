@@ -1,10 +1,10 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.controller.CustomerDataController;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.CustomerData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,9 @@ public class CustomerDataServiceProxyTest {
     @Autowired
     private CustomerDataServiceProxy customerDataServiceProxy;
 
+    @Value("${services.customers-data.baseUrl}")
+    private String serviceBaseUrl;
+
     @Test
     public void Returns_null_when_customer_does_not_exist() {
 
@@ -40,7 +43,7 @@ public class CustomerDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(CustomerDataController.URL_MAPPING + "/" + NON_EXISTING_CUSTOMER_ID)
+                requestTo(serviceBaseUrl + "/" + NON_EXISTING_CUSTOMER_ID)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
@@ -68,7 +71,7 @@ public class CustomerDataServiceProxyTest {
         server
                 .expect(
                         once(),
-                        requestTo(CustomerDataController.URL_MAPPING + "/" + ANY_CUSTOMER_ID)
+                        requestTo(serviceBaseUrl + "/" + ANY_CUSTOMER_ID)
                 )
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(
@@ -100,7 +103,7 @@ public class CustomerDataServiceProxyTest {
         server
                 .expect(
                         once(),
-                        requestTo(CustomerDataController.URL_MAPPING + "/" + ANY_CUSTOMER_ID)
+                        requestTo(serviceBaseUrl + "/" + ANY_CUSTOMER_ID)
                 )
                 .andExpect(method(HttpMethod.GET))
                 .andRespond(
@@ -140,7 +143,7 @@ public class CustomerDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(CustomerDataController.URL_MAPPING + "/" + EXISTING_CUSTOMER_ID)
+                requestTo(serviceBaseUrl + "/" + EXISTING_CUSTOMER_ID)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(

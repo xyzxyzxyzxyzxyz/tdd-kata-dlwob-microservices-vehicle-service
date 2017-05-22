@@ -1,10 +1,10 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.controller.VehicleDataController;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -31,6 +31,10 @@ public class VehicleDataServiceProxyTest {
     @Autowired
     private VehicleDataServiceProxy vehicleDataServiceProxy;
 
+    @Value("${services.vehicles-data.baseUrl}")
+    private String serviceBaseUrl;
+
+
     @Test
     public void Returns_null_when_vin_does_not_exist() {
 
@@ -40,7 +44,7 @@ public class VehicleDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(VehicleDataController.URL_MAPPING + "/" + NON_EXISTING_VIN)
+                requestTo(serviceBaseUrl + "/" + NON_EXISTING_VIN)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
@@ -68,7 +72,7 @@ public class VehicleDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(VehicleDataController.URL_MAPPING + "/" + ANY_VIN)
+                requestTo(serviceBaseUrl + "/" + ANY_VIN)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
@@ -100,7 +104,7 @@ public class VehicleDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(VehicleDataController.URL_MAPPING + "/" + ANY_VIN)
+                requestTo(serviceBaseUrl + "/" + ANY_VIN)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
@@ -140,7 +144,7 @@ public class VehicleDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(VehicleDataController.URL_MAPPING + "/" + EXISTING_VIN)
+                requestTo(serviceBaseUrl + "/" + EXISTING_VIN)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
