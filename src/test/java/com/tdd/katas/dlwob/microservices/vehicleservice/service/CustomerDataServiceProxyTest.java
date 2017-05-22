@@ -10,8 +10,10 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.HttpClientErrorException;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.springframework.test.web.client.ExpectedCount.once;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
@@ -54,5 +56,38 @@ public class CustomerDataServiceProxyTest {
         server.verify();
 
     }
+
+    @Test
+    public void Throws_exception_when_client_error() {
+
+        String ANY_CUSTOMER_ID = "ANY_CUSTOMER_ID";
+
+        // Prepare server response
+        server
+                .expect(
+                        once(),
+                        requestTo(CustomerDataController.URL_MAPPING + "/" + ANY_CUSTOMER_ID)
+                )
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                        withStatus(HttpStatus.BAD_REQUEST)
+                )
+        ;
+
+
+        try {
+            // Execute action
+            customerDataServiceProxy.getCustomerData(ANY_CUSTOMER_ID);
+
+            fail("Should have thrown an exception");
+        }
+        catch (HttpClientErrorException e) {
+            // Ok
+        }
+
+        // Verify expected interaction with server
+        server.verify();
+    }
+
 
 }
