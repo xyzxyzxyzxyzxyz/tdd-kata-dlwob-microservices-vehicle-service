@@ -91,6 +91,38 @@ public class PartDataServiceProxyTest {
 
     }
 
+    @Test
+    public void Throws_exception_when_server_error() {
+
+        String ANY_VIN = "ANY_VIN";
+
+        // Prepare server response
+        server
+                .expect(
+                        once(),
+                        requestTo(PartDataController.URL_MAPPING + "/" + ANY_VIN)
+                )
+                .andExpect(method(HttpMethod.GET))
+                .andRespond(
+                        withStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+                )
+        ;
+
+        // Execute action
+        try {
+            partDataServiceProxy.getPartDataList(ANY_VIN);
+
+            fail("Should have thrown an exception");
+        }
+        catch (HttpClientErrorException e) {
+            // Ok
+        }
+
+        // Verify expected interaction with server
+        server.verify();
+
+    }
+
 
 
 }
