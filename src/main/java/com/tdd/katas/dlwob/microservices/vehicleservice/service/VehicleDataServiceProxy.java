@@ -17,7 +17,7 @@ class VehicleDataServiceProxy {
         restTemplate = restTemplateBuilder.build();
     }
 
-    public VehicleData getVehicleData(String vinCode) {
+    public VehicleData getVehicleData(String vinCode) throws HttpClientErrorException {
         try {
             restTemplate.getForEntity(
                     VehicleDataController.URL_MAPPING + "/" + vinCode,
@@ -26,6 +26,9 @@ class VehicleDataServiceProxy {
         catch (HttpClientErrorException e) {
             if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 return null;
+            }
+            else {
+                throw e;
             }
         }
 
