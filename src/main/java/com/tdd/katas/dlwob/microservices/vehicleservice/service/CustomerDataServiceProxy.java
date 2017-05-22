@@ -17,13 +17,16 @@ class CustomerDataServiceProxy {
         restTemplate = restTemplateBuilder.build();
     }
 
-    public CustomerData getCustomerData(String nonExistingCustomerId) {
+    public CustomerData getCustomerData(String nonExistingCustomerId) throws HttpClientErrorException {
         try {
             restTemplate.getForEntity(CustomerDataController.URL_MAPPING + "/" + nonExistingCustomerId, CustomerData.class);
         }
         catch (HttpClientErrorException e) {
             if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
                 return null;
+            }
+            else {
+                throw e;
             }
         }
 
