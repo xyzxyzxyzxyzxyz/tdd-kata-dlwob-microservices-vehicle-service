@@ -15,7 +15,11 @@ public class MockVehicleCustomerDataServiceImpl
 
     @Override
     public VehicleCustomerData getVehicleCustomerData(String vinCode) {
-        return dataObject;
+        if (MockServicesConstants.SAMPLE_VEHICLE_VIN_CODE.equals(vinCode)) {
+            return dataObject;
+        }
+
+        return null;
     }
 
 }
