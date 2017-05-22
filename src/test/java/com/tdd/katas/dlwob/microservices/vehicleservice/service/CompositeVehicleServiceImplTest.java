@@ -56,52 +56,55 @@ public class CompositeVehicleServiceImplTest {
 
     }
 
+
+
+    private static final String ANY_VIN = "ANY_VIN";
+    private static final String ANY_CUSTOMER_ID = "ANY_CUSTOMER_ID";
+
     @Test
     public void Throws_exception_when_sub_service_error() {
 
-        final String ANY_VIN = "ANY_VIN";
-
         // VehicleCustomerDataService
 
-            willThrowException(ANY_VIN, vehicleCustomerDataService);
+            willThrowException(vehicleCustomerDataService);
 
-            willReturnValidData(ANY_VIN, customerDataServiceProxy);
-            willReturnValidData(ANY_VIN, vehicleDataServiceProxy);
-            willReturnValidData(ANY_VIN, partDataServiceProxy);
+            willReturnValidData(customerDataServiceProxy);
+            willReturnValidData(vehicleDataServiceProxy);
+            willReturnValidData(partDataServiceProxy);
 
-            assertCompositeVehicleServiceThrowsException(ANY_VIN);
+            assertCompositeVehicleServiceThrowsException();
 
         // CustomerDataServiceProxy
-            willThrowException(ANY_VIN, customerDataServiceProxy);
+            willThrowException(customerDataServiceProxy);
 
-            willReturnValidData(ANY_VIN, vehicleCustomerDataService);
-            willReturnValidData(ANY_VIN, vehicleDataServiceProxy);
-            willReturnValidData(ANY_VIN, partDataServiceProxy);
+            willReturnValidData(vehicleCustomerDataService);
+            willReturnValidData(vehicleDataServiceProxy);
+            willReturnValidData(partDataServiceProxy);
 
-            assertCompositeVehicleServiceThrowsException(ANY_VIN);
+            assertCompositeVehicleServiceThrowsException();
         // VehicleDataServiceProxy
-            willThrowException(ANY_VIN, vehicleDataServiceProxy);
+            willThrowException(vehicleDataServiceProxy);
 
-            willReturnValidData(ANY_VIN, vehicleCustomerDataService);
-            willReturnValidData(ANY_VIN, customerDataServiceProxy);
-            willReturnValidData(ANY_VIN, partDataServiceProxy);
+            willReturnValidData(vehicleCustomerDataService);
+            willReturnValidData(customerDataServiceProxy);
+            willReturnValidData(partDataServiceProxy);
 
-            assertCompositeVehicleServiceThrowsException(ANY_VIN);
+            assertCompositeVehicleServiceThrowsException();
 
         // PartDataServiceProxy
-            willThrowException(ANY_VIN, partDataServiceProxy);
+            willThrowException(partDataServiceProxy);
 
-            willReturnValidData(ANY_VIN, vehicleCustomerDataService);
-            willReturnValidData(ANY_VIN, customerDataServiceProxy);
-            willReturnValidData(ANY_VIN, vehicleDataServiceProxy);
+            willReturnValidData(vehicleCustomerDataService);
+            willReturnValidData(customerDataServiceProxy);
+            willReturnValidData(vehicleDataServiceProxy);
 
-            assertCompositeVehicleServiceThrowsException(ANY_VIN);
+            assertCompositeVehicleServiceThrowsException();
     }
 
-    private void assertCompositeVehicleServiceThrowsException(String vinCode) {
+    private void assertCompositeVehicleServiceThrowsException() {
         try {
             // Perform action
-            compositeVehicleService.getVehicleInformation(vinCode);
+            compositeVehicleService.getVehicleInformation(ANY_VIN);
 
             fail("Should have thrown an exception");
         }
@@ -112,41 +115,39 @@ public class CompositeVehicleServiceImplTest {
 
     }
 
-    private void willReturnValidData(String vinCode, Object serviceOrProxy) {
+    private void willReturnValidData(Object serviceOrProxy) {
         // Reset mock
         Mockito.reset(serviceOrProxy);
 
         // Prepare behaviour
 
-        final String CUSTOMER_ID = "CUSTOMER_ID";
-
         if (serviceOrProxy == vehicleCustomerDataService) {
             VehicleCustomerData vcd = new VehicleCustomerData();
-            vcd.setCustomerId(CUSTOMER_ID);
+            vcd.setCustomerId(ANY_CUSTOMER_ID);
 
             given(
-                vehicleCustomerDataService.getVehicleCustomerData(vinCode)
+                vehicleCustomerDataService.getVehicleCustomerData(ANY_VIN)
             ).willReturn(vcd);
         }
         else if (serviceOrProxy == customerDataServiceProxy) {
             CustomerData customerData = new CustomerData();
 
             given(
-                customerDataServiceProxy.getCustomerData(CUSTOMER_ID)
+                customerDataServiceProxy.getCustomerData(ANY_CUSTOMER_ID)
             ).willReturn(customerData);
         }
         else if (serviceOrProxy == vehicleDataServiceProxy) {
             VehicleData vehicleData = new VehicleData();
 
             given(
-                vehicleDataServiceProxy.getVehicleData(vinCode)
+                vehicleDataServiceProxy.getVehicleData(ANY_VIN)
             ).willReturn(vehicleData);
         }
         else if (serviceOrProxy == partDataServiceProxy) {
             List<PartData> partDataList = new ArrayList<>();
 
             given(
-                partDataServiceProxy.getPartDataList(vinCode)
+                partDataServiceProxy.getPartDataList(ANY_VIN)
             ).willReturn(partDataList);
         }
         else {
@@ -155,32 +156,30 @@ public class CompositeVehicleServiceImplTest {
 
     }
 
-    private void willThrowException(String vinCode, Object serviceOrProxy) {
+    private void willThrowException(Object serviceOrProxy) {
         // Reset mock
         Mockito.reset(serviceOrProxy);
 
         // Prepare behaviour
 
-        final String CUSTOMER_ID = "CUSTOMER_ID";
-
         if (serviceOrProxy == vehicleCustomerDataService) {
             given(
-                vehicleCustomerDataService.getVehicleCustomerData(vinCode)
+                vehicleCustomerDataService.getVehicleCustomerData(ANY_VIN)
             ).willThrow(new RuntimeException("Not ready"));
         }
         else if (serviceOrProxy == customerDataServiceProxy) {
             given(
-                customerDataServiceProxy.getCustomerData(CUSTOMER_ID)
+                customerDataServiceProxy.getCustomerData(ANY_CUSTOMER_ID)
             ).willThrow(new RuntimeException("Not ready"));
         }
         else if (serviceOrProxy == vehicleDataServiceProxy) {
             given(
-                vehicleDataServiceProxy.getVehicleData(vinCode)
+                vehicleDataServiceProxy.getVehicleData(ANY_VIN)
             ).willThrow(new RuntimeException("Not ready"));
         }
         else if (serviceOrProxy == partDataServiceProxy) {
             given(
-                partDataServiceProxy.getPartDataList(vinCode)
+                partDataServiceProxy.getPartDataList(ANY_VIN)
             ).willThrow(new RuntimeException("Not ready"));
         }
         else {
