@@ -1,6 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.controller.CustomerDataController;
+import com.tdd.katas.dlwob.microservices.vehicleservice.controller.VehicleDataController;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class VehicleDataServiceProxyTest {
         server
             .expect(
                 once(),
-                requestTo(CustomerDataController.URL_MAPPING + "/" + NON_EXISTING_VIN)
+                requestTo(VehicleDataController.URL_MAPPING + "/" + NON_EXISTING_VIN)
             )
             .andExpect(method(HttpMethod.GET))
             .andRespond(
