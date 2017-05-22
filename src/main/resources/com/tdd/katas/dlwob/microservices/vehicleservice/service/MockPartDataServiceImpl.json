@@ -1,0 +1,14 @@
+[
+	{
+		"id": "sample-part-1-id",
+		"description": "sample-part-1-description"
+	},
+	{
+		"id": "sample-part-2-id",
+		"description": "sample-part-2-description"
+	},
+	{
+		"id": "sample-part-3-id",
+		"description": "sample-part-3-description"
+	}
+]
