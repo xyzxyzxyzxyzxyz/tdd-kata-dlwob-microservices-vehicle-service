@@ -4,6 +4,7 @@ import com.tdd.katas.dlwob.microservices.vehicleservice.controller.VehicleDataCo
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleData;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -19,8 +20,10 @@ class VehicleDataServiceProxy {
     }
 
     public VehicleData getVehicleData(String vinCode) throws HttpClientErrorException, HttpServerErrorException {
+        ResponseEntity<VehicleData> response;
+
         try {
-            restTemplate.getForEntity(
+            response = restTemplate.getForEntity(
                     VehicleDataController.URL_MAPPING + "/" + vinCode,
                     VehicleData.class);
         }
@@ -33,7 +36,7 @@ class VehicleDataServiceProxy {
             }
         }
 
-        throw new UnsupportedOperationException("Not implemented");
+        return response.getBody();
     }
 
 }
