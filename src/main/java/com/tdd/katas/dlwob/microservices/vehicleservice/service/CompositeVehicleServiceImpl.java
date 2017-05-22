@@ -10,6 +10,12 @@ public class CompositeVehicleServiceImpl implements VehicleService {
 
     @Autowired
     private VehicleCustomerDataService vehicleCustomerDataService;
+    @Autowired
+    private CustomerDataServiceProxy customerDataServiceProxy;
+    @Autowired
+    private VehicleDataServiceProxy vehicleDataServiceProxy;
+    @Autowired
+    private PartDataServiceProxy partDataServiceProxy;
 
     @Override
     public VehicleInformation getVehicleInformation(String vinCode) {
@@ -18,6 +24,10 @@ public class CompositeVehicleServiceImpl implements VehicleService {
         if (vcd == null) {
             return null;
         }
+
+        customerDataServiceProxy.getCustomerData(vcd.getCustomerId());
+        vehicleDataServiceProxy.getVehicleData(vinCode);
+        partDataServiceProxy.getPartDataList(vinCode);
 
         return null;
 
