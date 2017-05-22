@@ -4,6 +4,7 @@ import com.tdd.katas.dlwob.microservices.vehicleservice.controller.CustomerDataC
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.CustomerData;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -19,7 +20,8 @@ class CustomerDataServiceProxy {
 
     public CustomerData getCustomerData(String nonExistingCustomerId) throws HttpClientErrorException {
         try {
-            restTemplate.getForEntity(CustomerDataController.URL_MAPPING + "/" + nonExistingCustomerId, CustomerData.class);
+            ResponseEntity<CustomerData> customerData = restTemplate.getForEntity(CustomerDataController.URL_MAPPING + "/" + nonExistingCustomerId, CustomerData.class);
+            return customerData.getBody();
         }
         catch (HttpClientErrorException e) {
             if (e.getStatusCode().equals(HttpStatus.NOT_FOUND)) {
@@ -29,8 +31,6 @@ class CustomerDataServiceProxy {
                 throw e;
             }
         }
-
-        return null;
     }
 
 }
