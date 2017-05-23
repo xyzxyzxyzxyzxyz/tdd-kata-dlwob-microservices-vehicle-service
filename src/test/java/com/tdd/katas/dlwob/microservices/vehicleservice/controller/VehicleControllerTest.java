@@ -1,10 +1,10 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.controller;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.model.CustomerData;
-import com.tdd.katas.dlwob.microservices.vehicleservice.partdata.model.PartData;
-import com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.model.VehicleData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.model.CustomerData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleInformation;
+import com.tdd.katas.dlwob.microservices.vehicleservice.partdata.model.PartData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.service.VehicleService;
+import com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.model.VehicleData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +19,9 @@ import java.util.ArrayList;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = VehicleController.class)
