@@ -1,7 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.model;
 
 import com.tdd.katas.dlwob.microservices.vehicleservice.partdata.model.PartData;
-import com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.model.VehicleData;
 
 import java.util.List;
 
