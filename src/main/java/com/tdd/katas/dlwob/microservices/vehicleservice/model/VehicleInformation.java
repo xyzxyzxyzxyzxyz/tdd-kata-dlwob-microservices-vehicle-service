@@ -1,5 +1,7 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.model;
 
+import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.model.CustomerData;
+
 import java.util.List;
 
 public class VehicleInformation {

@@ -1,6 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.controller;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.CustomerData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.model.CustomerData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.PartData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleInformation;

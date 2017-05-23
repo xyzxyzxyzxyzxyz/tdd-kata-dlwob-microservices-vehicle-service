@@ -1,7 +1,7 @@
-package com.tdd.katas.dlwob.microservices.vehicleservice.controller;
+package com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.controller;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.CustomerData;
-import com.tdd.katas.dlwob.microservices.vehicleservice.service.CustomerDataService;
+import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.model.CustomerData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.service.CustomerDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
