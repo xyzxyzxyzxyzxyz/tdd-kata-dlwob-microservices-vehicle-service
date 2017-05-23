@@ -2,7 +2,7 @@ package com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.controller
 
 import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.model.CustomerData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.service.CustomerDataService;
-import com.tdd.katas.dlwob.microservices.vehicleservice.service.MockServicesConstants;
+import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.service.MockServicesConstants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

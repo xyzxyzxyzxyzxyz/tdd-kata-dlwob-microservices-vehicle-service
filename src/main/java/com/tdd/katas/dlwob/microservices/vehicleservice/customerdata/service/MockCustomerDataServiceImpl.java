@@ -1,7 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.service;
 
 import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.model.CustomerData;
-import com.tdd.katas.dlwob.microservices.vehicleservice.service.MockServicesConstants;
 import org.springframework.stereotype.Service;
 
 @Service
