@@ -2,6 +2,7 @@ package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
 import com.tdd.katas.dlwob.microservices.vehicleservice.customerdata.model.CustomerData;
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.*;
+import com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.model.VehicleData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

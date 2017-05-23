@@ -1,7 +1,7 @@
-package com.tdd.katas.dlwob.microservices.vehicleservice.controller;
+package com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.controller;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleData;
-import com.tdd.katas.dlwob.microservices.vehicleservice.service.VehicleDataService;
+import com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.model.VehicleData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.service.VehicleDataService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

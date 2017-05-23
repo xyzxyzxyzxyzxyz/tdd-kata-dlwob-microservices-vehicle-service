@@ -1,6 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.VehicleData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.vehicledata.model.VehicleData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
