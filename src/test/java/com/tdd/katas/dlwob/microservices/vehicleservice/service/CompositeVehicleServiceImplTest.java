@@ -1,7 +1,6 @@
 package com.tdd.katas.dlwob.microservices.vehicleservice.service;
 
 import com.tdd.katas.dlwob.microservices.vehicleservice.model.*;
-import com.tdd.katas.dlwob.microservices.vehicleservice.partdata.model.PartData;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
