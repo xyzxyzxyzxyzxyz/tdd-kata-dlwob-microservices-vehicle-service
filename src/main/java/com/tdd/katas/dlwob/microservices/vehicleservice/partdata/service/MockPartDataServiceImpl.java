@@ -1,7 +1,7 @@
-package com.tdd.katas.dlwob.microservices.vehicleservice.service;
+package com.tdd.katas.dlwob.microservices.vehicleservice.partdata.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.PartData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.partdata.model.PartData;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.tdd.katas.dlwob.microservices.vehicleservice.model;
+package com.tdd.katas.dlwob.microservices.vehicleservice.partdata.model;
 
 public class PartData {
     private String id;

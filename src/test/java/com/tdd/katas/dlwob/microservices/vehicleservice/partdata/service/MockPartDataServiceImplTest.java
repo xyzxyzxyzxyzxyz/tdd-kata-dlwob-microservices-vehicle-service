@@ -1,6 +1,7 @@
-package com.tdd.katas.dlwob.microservices.vehicleservice.service;
+package com.tdd.katas.dlwob.microservices.vehicleservice.partdata.service;
 
-import com.tdd.katas.dlwob.microservices.vehicleservice.model.PartData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.partdata.model.PartData;
+import com.tdd.katas.dlwob.microservices.vehicleservice.service.MockServicesConstants;
 import org.junit.Test;
 
 import java.io.UnsupportedEncodingException;
